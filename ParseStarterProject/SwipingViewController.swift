@@ -30,6 +30,20 @@ class SwipingViewController: UIViewController {
         
         currentUser.userInteractionEnabled = true
         
+        PFGeoPoint.geoPointForCurrentLocationInBackground {
+            
+            (geoPoint: PFGeoPoint?, error: NSError?) -> Void in
+            
+            if let geoPoint = geoPoint {
+                
+                PFUser.currentUser()?["location"] = geoPoint
+                
+                PFUser.currentUser()?.save()
+                
+            }
+            
+        }
+        
         updateSelectedUser()
         
         
@@ -123,7 +137,7 @@ class SwipingViewController: UIViewController {
                     
                     self.displayedUserId = object.objectId!
                     
-                    let imageFile = object["image"] as! PFFile
+                    
                     if let name = self.hiringUserLabel {
                         
                         name.text = (object["name"] as! String)
@@ -133,7 +147,7 @@ class SwipingViewController: UIViewController {
                         
                         lookingFor.text = (object["lookingFor"] as! String)
                     }
-                    
+                    let imageFile = object["image"] as! PFFile
                     imageFile.getDataInBackgroundWithBlock {
                         (imageData: NSData?, error: NSError?) -> Void in
                         

@@ -16,6 +16,8 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet var lookingToWork: UISwitch!
     
+    @IBOutlet var lookingFor: UITextField!
+    
     @IBAction func signUp(sender: AnyObject) {
         
         PFUser.currentUser()?["lookingToWork"] = lookingToWork.on
